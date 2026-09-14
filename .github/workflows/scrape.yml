@@ -2,18 +2,15 @@ name: scrape-occupancy
 
 on:
   schedule:
-    # Every 15 minutes. NOTE: GitHub Actions cron is best-effort — runs are
-    # often delayed 15–30 min and occasionally skipped. Fine for weekly averages.
-     cron: "3,18,33,48 * * * *"
-  workflow_dispatch: {}   # lets you run it manually from the Actions tab
+    - cron: "3,18,33,48 * * * *"
+  workflow_dispatch: {}
 
-# Only one run at a time so commits don't race.
 concurrency:
   group: scrape-occupancy
   cancel-in-progress: false
 
 permissions:
-  contents: write          # needed to commit the CSV back to the repo
+  contents: write
 
 jobs:
   scrape:
@@ -37,6 +34,4 @@ jobs:
             echo "no changes to commit"
           else
             git commit -m "data: $(date -u +%FT%TZ)"
-            git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
-            git push
-          fi
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}"
