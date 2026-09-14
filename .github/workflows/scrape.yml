@@ -4,7 +4,7 @@ on:
   schedule:
     # Every 15 minutes. NOTE: GitHub Actions cron is best-effort — runs are
     # often delayed 15–30 min and occasionally skipped. Fine for weekly averages.
-    - cron: "*/15 * * * *"
+     cron: "3,18,33,48 * * * *"
   workflow_dispatch: {}   # lets you run it manually from the Actions tab
 
 # Only one run at a time so commits don't race.
