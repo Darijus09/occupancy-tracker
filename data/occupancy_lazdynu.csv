@@ -1,0 +1,2 @@
+ts_utc,ts_local,weekday,dow,hour,minute,occupancy_pct,status
+2026-09-14T15:40:57Z,2026-09-14 18:40:57,Monday,0,18,40,59,ok
