@@ -150,8 +150,9 @@ function color(pct){return `rgb(${rampRGB(pct).join(",")})`;}
 function textColor(pct){const rgb=rampRGB(pct);const lum=(0.2126*rgb[0]+0.7152*rgb[1]+0.0722*rgb[2])/255;return lum>0.6?"#0b0b0b":"#fff";}
 
 // ---- facility opening hours (hour buckets) --------------------------------
-// Mon–Fri 06:00–22:00 -> buckets 6..21 ; Sat–Sun 08:00–21:00 -> buckets 8..20
-function isOpen(d,h){ return d<=4 ? (h>=6&&h<=21) : (h>=8&&h<=20); }
+// Mon–Fri 06:00–22:00 ; Sat–Sun 08:00–21:00 (closing hour kept as its own row)
+function isOpen(d,h){ return d<=4 ? (h>=6&&h<=22) : (h>=8&&h<=21); }
+function closeHour(d){ return d<=4 ? 22 : 21; }
 function openHours(d){const o=[];for(let h=0;h<24;h++)if(isOpen(d,h))o.push(h);return o;}
 function range(a,b){const o=[];for(let i=a;i<=b;i++)o.push(i);return o;}
 
@@ -240,8 +241,9 @@ function applyFilter(){
 
   // best-times cards (for today's weekday, within the selected period)
   const oh=openHours(TODAY);
+  const usable=oh.filter(h=>h!==closeHour(TODAY)); // don't recommend the closing hour
   const rank=hrs=>hrs.map(h=>({h,a:AVG(TODAY,h)})).filter(x=>x.a!=null).sort((a,b)=>a.a-b.a);
-  const all=rank(oh), work=rank(oh.filter(h=>h<8||h>=17));
+  const all=rank(usable), work=rank(usable.filter(h=>h<8||h>=17));
   fillBest("best-all","best-all-sub",all,`quietest on ${DAYS[TODAY]}`);
   fillBest("best-work","best-work-sub",work,`before 08:00 / after 17:00 · ${DAYS[TODAY]}`);
 
