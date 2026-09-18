@@ -416,3 +416,4 @@ ts_utc,ts_local,weekday,dow,hour,minute,occupancy_pct,status
 2026-09-18T20:15:41Z,2026-09-18 23:15:41,Friday,4,23,15,0,ok
 2026-09-18T20:30:59Z,2026-09-18 23:30:59,Friday,4,23,30,,http_error:URLError
 2026-09-18T20:45:33Z,2026-09-18 23:45:33,Friday,4,23,45,0,ok
+2026-09-18T21:01:14Z,2026-09-19 00:01:14,Saturday,5,0,1,0,ok
