@@ -7,139 +7,180 @@
 <style>
   :root{
     color-scheme: light;
-    --page:#f9f9f7; --surface:#fcfcfb;
-    --ink:#0b0b0b; --ink2:#52514e; --muted:#898781;
-    --grid:#e1e0d9; --ring:rgba(11,11,11,.10); --closed:#e7e6e1;
-    --today:#2a78d6; --usual:#8a8785;
+    --page:#eeeeec; --surface:#ffffff; --surface2:#f7f7f5;
+    --rail:#1b1b1a; --rail-ink:#8f8f89; --rail-active:#ffffff;
+    --ink:#111110; --ink2:#55554f; --muted:#8a8a83;
+    --line:#e4e3dd; --accent:#2a78d6; --closed:#ecece8;
+    --today:#2a78d6; --usual:#a6a59e;
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
       color-scheme: dark;
-      --page:#0d0d0d; --surface:#1a1a19;
-      --ink:#fff; --ink2:#c3c2b7; --muted:#898781;
-      --grid:#2c2c2a; --ring:rgba(255,255,255,.10); --closed:#242422;
-      --today:#3987e5; --usual:#9a9893;
+      --page:#0c0c0c; --surface:#161615; --surface2:#1c1c1a;
+      --rail:#000000; --rail-ink:#7d7d77; --rail-active:#ffffff;
+      --ink:#f4f4f0; --ink2:#b8b8b0; --muted:#7d7d77;
+      --line:#2a2a27; --accent:#3987e5; --closed:#232321;
+      --today:#3987e5; --usual:#83837c;
     }
   }
   :root[data-theme="dark"]{
     color-scheme: dark;
-    --page:#0d0d0d; --surface:#1a1a19;
-    --ink:#fff; --ink2:#c3c2b7; --muted:#898781;
-    --grid:#2c2c2a; --ring:rgba(255,255,255,.10); --closed:#242422;
-    --today:#3987e5; --usual:#9a9893;
+    --page:#0c0c0c; --surface:#161615; --surface2:#1c1c1a;
+    --rail:#000000; --rail-ink:#7d7d77; --rail-active:#ffffff;
+    --ink:#f4f4f0; --ink2:#b8b8b0; --muted:#7d7d77;
+    --line:#2a2a27; --accent:#3987e5; --closed:#232321;
+    --today:#3987e5; --usual:#83837c;
   }
   *{box-sizing:border-box}
+  html,body{height:100%}
   body{margin:0;background:var(--page);color:var(--ink);
     font:14px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;}
-  .wrap{max-width:960px;margin:0 auto;padding-block:32px;padding-inline:16px;}
-  header h1{font-size:20px;margin:0 0 2px;letter-spacing:-.01em}
-  header p{margin:0;color:var(--ink2)}
   a{color:inherit}
-  .filterbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:18px 0 0;
-    color:var(--muted);font-size:13px}
-  .filterbar select,.filterbar input[type=date]{font:inherit;font-size:13px;color:var(--ink);
-    background:var(--surface);border:1px solid var(--ring);border-radius:8px;padding:5px 9px;cursor:pointer}
-  .filterbar .pinfo{color:var(--ink2)}
-  .cards{display:flex;flex-wrap:wrap;gap:12px;margin:16px 0 26px}
-  .card{background:var(--surface);border:1px solid var(--ring);border-radius:12px;
-    padding:14px 16px;min-width:160px;flex:1}
-  .card .label{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.04em}
-  .card .value{font-size:26px;font-weight:600;margin-top:4px}
-  .card .sub{color:var(--ink2);font-size:12px;margin-top:2px}
-  .panel{background:var(--surface);border:1px solid var(--ring);border-radius:14px;
-    padding:18px 16px 20px;overflow-x:auto}
-  .panel h2{font-size:14px;margin:0;color:var(--ink2);font-weight:600}
-  .panelhead{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
-  .daysel{color:var(--muted);font-size:12px;display:flex;align-items:center;gap:6px}
-  .daysel select{font:inherit;font-size:13px;color:var(--ink);background:var(--surface);
-    border:1px solid var(--ring);border-radius:8px;padding:5px 9px;cursor:pointer}
+  .app{display:flex;min-height:100%}
+
+  /* ---- left facility rail ---- */
+  .rail{width:64px;flex:0 0 64px;background:var(--rail);display:flex;flex-direction:column;
+    align-items:center;gap:6px;padding:14px 0;position:sticky;top:0;height:100vh}
+  .rail .mark{width:30px;height:30px;background:var(--accent);color:#fff;display:flex;align-items:center;
+    justify-content:center;font-weight:700;font-size:14px;margin-bottom:12px;letter-spacing:-.02em}
+  .fac{width:44px;height:44px;position:relative;cursor:pointer;display:flex;align-items:center;justify-content:center;
+    background:#fff;border:1px solid transparent;filter:grayscale(1);opacity:.55;transition:opacity .12s,filter .12s}
+  .fac:hover{opacity:.85;filter:grayscale(0)}
+  .fac.active{opacity:1;filter:grayscale(0)}
+  .fac.active::before{content:"";position:absolute;left:-14px;top:6px;bottom:6px;width:3px;background:var(--rail-active)}
+  .fac .mono{font-weight:700;font-size:15px;color:#1b1b1a;letter-spacing:-.02em}
+  .fac img{position:absolute;inset:4px;width:calc(100% - 8px);height:calc(100% - 8px);object-fit:contain}
+  .fac.add{background:transparent;border:1px dashed var(--rail-ink);color:var(--rail-ink);font-size:20px;
+    cursor:default;opacity:.5;filter:none}
+  .fac.add:hover{opacity:.5}
+
+  /* ---- main ---- */
+  .main{flex:1;min-width:0;display:flex;flex-direction:column}
+  .topbar{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;
+    padding:20px 26px;border-bottom:1px solid var(--line);background:var(--surface)}
+  .topbar h1{font-size:19px;margin:0 0 2px;letter-spacing:-.01em}
+  .topbar p{margin:0;color:var(--muted);font-size:12.5px}
+  .filterbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:13px}
+  select,input[type=date]{font:inherit;font-size:13px;color:var(--ink);background:var(--surface);
+    border:1px solid var(--line);padding:6px 9px;cursor:pointer}
+  .pinfo{color:var(--ink2)}
+  .content{padding:0}
+
+  /* ---- flat stat band ---- */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);background:var(--surface);border-bottom:1px solid var(--line)}
+  .stat{padding:16px 22px;border-left:1px solid var(--line)}
+  .stat:first-child{border-left:0}
+  .stat .label{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+  .stat .value{font-size:24px;font-weight:600;margin-top:5px;line-height:1.15}
+  .stat .value.sm{font-size:18px}
+  .stat .sub{color:var(--ink2);font-size:12px;margin-top:3px}
+
+  /* ---- sections ---- */
+  .section{background:var(--surface);border-bottom:1px solid var(--line);padding:20px 26px}
+  .section h2{font-size:13px;margin:0;color:var(--ink2);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+  .sectionhead{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+
+  table{border-collapse:separate;border-spacing:2px;margin:0 auto}
+  th{font-weight:500;color:var(--muted);font-size:12px;padding:2px}
+  th.rowlab{text-align:right;padding-right:8px;font-variant-numeric:tabular-nums;font-weight:400}
   th.today{color:var(--ink);font-weight:700}
   th.today::after{content:" ●";color:#d73027;font-size:9px;vertical-align:middle}
-  table{border-collapse:separate;border-spacing:3px;margin:0 auto}
-  th{font-weight:500;color:var(--muted);font-size:12px;padding:2px}
-  th.rowlab{text-align:right;padding-right:8px;font-variant-numeric:tabular-nums}
-  td{width:44px;height:26px;text-align:center;border-radius:5px;
-    font-size:11px;font-variant-numeric:tabular-nums;color:var(--ink);
-    background:var(--surface);border:1px solid transparent;position:relative}
-  td.empty{color:var(--muted);border:1px dashed var(--grid);background:transparent}
-  td.closed{background:var(--closed);border:1px solid transparent}
-  td[data-v]{cursor:default}
+  td{width:46px;height:26px;text-align:center;font-size:11px;font-variant-numeric:tabular-nums;color:var(--ink);
+    background:var(--surface2)}
+  td.empty{color:var(--muted);background:var(--surface2);border:1px dashed var(--line)}
+  td.closed{background:var(--closed)}
+  .gridwrap{overflow-x:auto}
   .legend{display:flex;align-items:center;gap:8px;justify-content:center;margin-top:16px;color:var(--muted);font-size:12px;flex-wrap:wrap}
-  .legend .bar{height:10px;width:200px;border-radius:5px;
-    background:linear-gradient(90deg,#1a9850,#66bd63,#a6d96a,#fee08b,#fdae61,#f46d43,#d73027)}
-  .legend .cl{display:inline-block;width:14px;height:10px;border-radius:3px;background:var(--closed);vertical-align:middle;margin-right:4px}
-  .tip{position:fixed;pointer-events:none;z-index:9;background:var(--ink);color:var(--page);
-    padding:6px 9px;border-radius:7px;font-size:12px;opacity:0;transition:opacity .1s;white-space:nowrap;
-    box-shadow:0 4px 14px rgba(0,0,0,.25)}
-  .empty-note{color:var(--ink2);text-align:center;padding:40px 10px}
+  .legend .bar{height:10px;width:200px;background:linear-gradient(90deg,#1a9850,#66bd63,#a6d96a,#fee08b,#fdae61,#f46d43,#d73027)}
+  .legend .cl{display:inline-block;width:14px;height:10px;background:var(--closed);vertical-align:middle;margin-right:4px}
+  .tip{position:fixed;pointer-events:none;z-index:9;background:var(--ink);color:var(--surface);
+    padding:6px 9px;font-size:12px;opacity:0;transition:opacity .1s;white-space:nowrap;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+  .toggle{margin-top:14px;text-align:center}
+  .toggle button{background:transparent;border:1px solid var(--line);color:var(--ink2);
+    padding:5px 14px;font:inherit;font-size:12px;cursor:pointer}
   #linechart{width:100%;overflow-x:auto}
   #linechart svg{display:block;width:100%;height:auto;min-width:520px}
   .legend2{display:flex;gap:20px;justify-content:center;margin-top:10px;color:var(--ink2);font-size:12px;flex-wrap:wrap}
   .legend2 span{display:inline-flex;align-items:center;gap:7px}
   .sw{width:18px;border-top:3px solid;display:inline-block}
-  .panel + .panel{margin-top:16px}
-  footer{color:var(--muted);font-size:12px;margin-top:22px;text-align:center}
-  .toggle{margin-top:14px;text-align:center}
-  .toggle button{background:transparent;border:1px solid var(--ring);color:var(--ink2);
-    border-radius:20px;padding:5px 14px;font:inherit;font-size:12px;cursor:pointer}
+  .empty-note{color:var(--ink2);text-align:center;padding:34px 10px}
+  footer{color:var(--muted);font-size:12px;padding:18px 26px;text-align:center}
+  @media (max-width:640px){ .stats{grid-template-columns:repeat(2,1fr)} .stat:nth-child(odd){border-left:0}
+    .stat:nth-child(n+3){border-top:1px solid var(--line)} }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <h1>Lazdynų baseinas — busyness</h1>
-    <p>Average occupancy by weekday and hour. Source: <a href="https://www.lazdynubaseinas.eu/" target="_blank" rel="noopener">lazdynubaseinas.eu</a>. Open Mon–Fri 06–22, Sat–Sun 08–21. Times are Europe/Vilnius.</p>
-  </header>
+<div class="app">
+  <nav class="rail" id="rail">
+    <div class="mark">◧</div>
+    <!-- facility tiles injected here -->
+    <div class="fac add" title="More facilities coming">+</div>
+  </nav>
 
-  <div class="filterbar">
-    <label>Period:
-      <select id="period">
-        <option value="all">All time</option>
-        <option value="7">Last 7 days</option>
-        <option value="30">Last 30 days</option>
-        <option value="custom">Custom range…</option>
-      </select>
-    </label>
-    <span id="customrange" hidden>
-      <input type="date" id="from"> → <input type="date" id="to">
-    </span>
-    <span class="pinfo" id="periodinfo"></span>
-  </div>
-
-  <div class="cards">
-    <div class="card"><div class="label">Latest reading</div><div class="value" id="latest">—</div><div class="sub" id="latest-when">no data yet</div></div>
-    <div class="card"><div class="label">Samples (period)</div><div class="value" id="count">0</div><div class="sub" id="span"></div></div>
-    <div class="card"><div class="label">Best time today</div><div class="value" id="best-all" style="font-size:20px">—</div><div class="sub" id="best-all-sub">quietest open hours</div></div>
-    <div class="card"><div class="label">Best after work (8–17 job)</div><div class="value" id="best-work" style="font-size:20px">—</div><div class="sub" id="best-work-sub">quietest before 08:00 or after 17:00</div></div>
-  </div>
-
-  <div class="panel">
-    <div class="panelhead">
-      <h2>Average occupancy % — green = quiet, red = busy</h2>
-      <label class="daysel">Day:
-        <select id="daysel"><option value="all">All week</option></select>
-      </label>
+  <div class="main">
+    <div class="topbar">
+      <div>
+        <h1 id="fac-name">—</h1>
+        <p id="fac-meta"></p>
+      </div>
+      <div class="filterbar">
+        <label>Period:
+          <select id="period">
+            <option value="all">All time</option>
+            <option value="7">Last 7 days</option>
+            <option value="30">Last 30 days</option>
+            <option value="custom">Custom range…</option>
+          </select>
+        </label>
+        <span id="customrange" hidden><input type="date" id="from"> → <input type="date" id="to"></span>
+        <span class="pinfo" id="periodinfo"></span>
+      </div>
     </div>
-    <div id="grid"></div>
-    <div class="legend" id="legend" hidden><span>0% quiet</span><span class="bar"></span><span>busy 100%</span><span style="margin-left:10px"><span class="cl"></span>closed</span></div>
-    <div class="toggle" id="toggle" hidden><button id="tbtn">Show as table</button></div>
-  </div>
 
-  <div class="panel" id="today-panel" hidden>
-    <div class="panelhead"><h2 id="today-title">Today so far vs usual</h2></div>
-    <div id="linechart"></div>
-    <div class="legend2" id="legend2"></div>
-    <div class="empty-note" id="today-empty" hidden style="padding:14px 10px">No readings collected today yet — the solid line appears once today's scrapes come in.</div>
-  </div>
+    <div class="content">
+      <div class="stats">
+        <div class="stat"><div class="label">Latest reading</div><div class="value" id="latest">—</div><div class="sub" id="latest-when">no data yet</div></div>
+        <div class="stat"><div class="label">Samples (period)</div><div class="value" id="count">0</div><div class="sub" id="span"></div></div>
+        <div class="stat"><div class="label">Best time today</div><div class="value sm" id="best-all">—</div><div class="sub" id="best-all-sub">quietest open hours</div></div>
+        <div class="stat"><div class="label">Best after work (8–17 job)</div><div class="value sm" id="best-work">—</div><div class="sub" id="best-work-sub">before 08:00 / after 17:00</div></div>
+      </div>
 
-  <footer>Updates automatically as new data is collected. Closed hours are greyed; open hours with no data yet show a dashed outline.</footer>
+      <div class="section">
+        <div class="sectionhead">
+          <h2>Average occupancy — green quiet, red busy</h2>
+          <label style="color:var(--muted);font-size:12px">Day:
+            <select id="daysel"><option value="all">All week</option></select>
+          </label>
+        </div>
+        <div class="gridwrap"><div id="grid"></div></div>
+        <div class="legend" id="legend" hidden><span>0%</span><span class="bar"></span><span>100%</span><span style="margin-left:10px"><span class="cl"></span>closed</span></div>
+        <div class="toggle" id="toggle" hidden><button id="tbtn">Show as table</button></div>
+      </div>
+
+      <div class="section" id="today-panel" hidden>
+        <div class="sectionhead"><h2 id="today-title">Today so far vs usual</h2></div>
+        <div id="linechart"></div>
+        <div class="legend2" id="legend2"></div>
+        <div class="empty-note" id="today-empty" hidden style="padding:14px 10px">No readings collected today yet — the solid line appears once today's scrapes come in.</div>
+      </div>
+
+      <footer>Auto-updates as new data is collected. Closed hours greyed; open hours with no data yet show a dashed outline. Times Europe/Vilnius.</footer>
+    </div>
+  </div>
 </div>
 <div class="tip" id="tip"></div>
 
 <script>
+// ---- facilities: add an entry here to add a venue to the left rail --------
+const FACILITIES=[
+  { id:"lazdynu", name:"Lazdynų baseinas", short:"LB", host:"lazdynubaseinas.eu",
+    csv:"./data/occupancy_lazdynu.csv", hours:{wk:[6,22], we:[8,21]},
+    logo:"https://www.google.com/s/2/favicons?sz=64&domain=lazdynubaseinas.eu" }
+];
+let ACTIVE=FACILITIES[0];
+
 const DAYS=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
 const FULLDAYS=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
-// green (quiet) -> yellow (mid) -> red (busy). ColorBrewer RdYlGn, reversed.
 const RAMP=["#1a9850","#66bd63","#a6d96a","#fee08b","#fdae61","#f46d43","#d73027"];
 function cssvar(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim();}
 function hx(h){h=h.replace("#","");return [0,2,4].map(i=>parseInt(h.substr(i,2),16));}
@@ -147,28 +188,46 @@ function rgbArr(a,b,t){const A=hx(a),B=hx(b);return A.map((v,i)=>Math.round(v+(B
 function rampRGB(pct){const x=Math.min(Math.max(pct,0),100)/100*(RAMP.length-1);const i=Math.floor(x);
   return i>=RAMP.length-1?hx(RAMP[RAMP.length-1]):rgbArr(RAMP[i],RAMP[i+1],x-i);}
 function color(pct){return `rgb(${rampRGB(pct).join(",")})`;}
-function textColor(pct){const rgb=rampRGB(pct);const lum=(0.2126*rgb[0]+0.7152*rgb[1]+0.0722*rgb[2])/255;return lum>0.6?"#0b0b0b":"#fff";}
+function textColor(pct){const rgb=rampRGB(pct);const lum=(0.2126*rgb[0]+0.7152*rgb[1]+0.0722*rgb[2])/255;return lum>0.6?"#111110":"#fff";}
 
-// ---- facility opening hours (hour buckets) --------------------------------
-// Mon–Fri 06:00–22:00 ; Sat–Sun 08:00–21:00 (closing hour kept as its own row)
-function isOpen(d,h){ return d<=4 ? (h>=6&&h<=22) : (h>=8&&h<=21); }
-function closeHour(d){ return d<=4 ? 22 : 21; }
+// opening hours come from the active facility
+function isOpen(d,h){const [o,c]=d<=4?ACTIVE.hours.wk:ACTIVE.hours.we; return h>=o&&h<=c;}
+function closeHour(d){return (d<=4?ACTIVE.hours.wk:ACTIVE.hours.we)[1];}
 function openHours(d){const o=[];for(let h=0;h<24;h++)if(isOpen(d,h))o.push(h);return o;}
 function range(a,b){const o=[];for(let i=a;i<=b;i++)o.push(i);return o;}
 
-// today in Europe/Vilnius, independent of the viewer's timezone
-const TODAY_DATE=(()=>{try{return new Intl.DateTimeFormat("en-CA",{timeZone:"Europe/Vilnius"}).format(new Date());}
-  catch(e){return new Date().toISOString().slice(0,10);}})();
-const TODAY=(()=>{try{const s=new Intl.DateTimeFormat("en-US",{timeZone:"Europe/Vilnius",weekday:"short"}).format(new Date());return DAYS.indexOf(s);}
-  catch(e){return (new Date().getDay()+6)%7;}})();
+const TODAY_DATE=(()=>{try{return new Intl.DateTimeFormat("en-CA",{timeZone:"Europe/Vilnius"}).format(new Date());}catch(e){return new Date().toISOString().slice(0,10);}})();
+const TODAY=(()=>{try{const s=new Intl.DateTimeFormat("en-US",{timeZone:"Europe/Vilnius",weekday:"short"}).format(new Date());return DAYS.indexOf(s);}catch(e){return (new Date().getDay()+6)%7;}})();
 function shiftDate(iso,delta){const d=new Date(iso+"T12:00:00Z");d.setUTCDate(d.getUTCDate()+delta);return d.toISOString().slice(0,10);}
 
 let ALL_OK=[], ROWS_OK=[], AVG=()=>null, CNT={}, TABLE=false, daySel="all";
 
-fetch("./data/occupancy_lazdynu.csv?"+Date.now())
-  .then(r=>{if(!r.ok)throw 0;return r.text();})
-  .then(parse).then(init)
-  .catch(()=>{document.getElementById("grid").innerHTML='<div class="empty-note">No data file yet. Once the scraper has run a few times, this fills in.</div>';});
+// ---- build the rail -------------------------------------------------------
+function buildRail(){
+  const rail=document.getElementById("rail");
+  const add=rail.querySelector(".fac.add");
+  FACILITIES.forEach(f=>{
+    const el=document.createElement("div");
+    el.className="fac"+(f.id===ACTIVE.id?" active":"");
+    el.title=f.name;
+    el.innerHTML=`<span class="mono">${f.short}</span>`+
+      (f.logo?`<img src="${f.logo}" alt="" onerror="this.remove()">`:"");
+    el.onclick=()=>{ if(f.id!==ACTIVE.id){ ACTIVE=f; document.querySelectorAll('.fac').forEach(x=>x.classList.remove('active')); el.classList.add('active'); loadFacility(); } };
+    rail.insertBefore(el, add);
+  });
+}
+
+function loadFacility(){
+  document.getElementById("fac-name").textContent=ACTIVE.name;
+  const wk=ACTIVE.hours.wk, we=ACTIVE.hours.we;
+  document.getElementById("fac-meta").innerHTML=
+    `Open Mon–Fri ${String(wk[0]).padStart(2,'0')}–${String(wk[1]).padStart(2,'0')}, `+
+    `Sat–Sun ${String(we[0]).padStart(2,'0')}–${String(we[1]).padStart(2,'0')}. `+
+    `Source: <a href="https://${ACTIVE.host}/" target="_blank" rel="noopener">${ACTIVE.host}</a>`;
+  ALL_OK=[]; document.getElementById("grid").innerHTML="";
+  fetch(ACTIVE.csv+"?"+Date.now()).then(r=>{if(!r.ok)throw 0;return r.text();}).then(parse).then(init)
+    .catch(()=>{document.getElementById("grid").innerHTML='<div class="empty-note">No data yet for this facility.</div>';});
+}
 
 function parse(txt){
   const lines=txt.trim().split(/\r?\n/); const head=lines.shift().split(",");
@@ -180,30 +239,23 @@ function parse(txt){
 
 function init(rows){
   ALL_OK=rows.filter(r=>r.status==="ok" && r.pct!=="");
-  // latest reading is always the newest overall, ignoring the period filter
-  if(ALL_OK.length){
-    const L=ALL_OK[ALL_OK.length-1];
+  if(ALL_OK.length){const L=ALL_OK[ALL_OK.length-1];
     document.getElementById("latest").textContent=L.pct+"%";
     document.getElementById("latest-when").textContent=L.ts;
-  }
-  // day dropdown
+  }else{document.getElementById("latest").textContent="—";document.getElementById("latest-when").textContent="no data yet";}
+
   const dsel=document.getElementById("daysel");
   dsel.innerHTML='<option value="all">All week</option>'+
     `<option value="${TODAY}">Today (${DAYS[TODAY]})</option>`+
     FULLDAYS.map((d,i)=>`<option value="${i}">${d}</option>`).join("");
-  dsel.value="all";
-  dsel.onchange=()=>{daySel=dsel.value;drawGrid();};
+  dsel.value=daySel="all"; dsel.onchange=()=>{daySel=dsel.value;drawGrid();};
 
-  // period dropdown
   const psel=document.getElementById("period");
   const dates=ALL_OK.map(r=>r.date);
   const minDate=dates.length?dates[0]:TODAY_DATE, maxDate=dates.length?dates[dates.length-1]:TODAY_DATE;
   const from=document.getElementById("from"), to=document.getElementById("to");
   from.min=to.min=minDate; from.max=to.max=maxDate; from.value=minDate; to.value=maxDate;
-  psel.onchange=()=>{
-    document.getElementById("customrange").hidden = psel.value!=="custom";
-    applyFilter();
-  };
+  psel.onchange=()=>{document.getElementById("customrange").hidden=psel.value!=="custom";applyFilter();};
   from.onchange=to.onchange=()=>{if(psel.value==="custom")applyFilter();};
 
   applyFilter();
@@ -212,43 +264,33 @@ function init(rows){
 
 function currentFilter(){
   const p=document.getElementById("period").value;
-  if(p==="all") return {lo:"0000-00-00", hi:"9999-99-99", label:"all time"};
-  if(p==="custom"){
-    const lo=document.getElementById("from").value||"0000-00-00";
-    const hi=document.getElementById("to").value||"9999-99-99";
-    return {lo,hi,label:`${lo} → ${hi}`};
-  }
-  const n=+p; const lo=shiftDate(TODAY_DATE,-(n-1));
-  return {lo,hi:"9999-99-99",label:`last ${n} days`};
+  if(p==="all") return {lo:"0000-00-00",hi:"9999-99-99",label:"all time"};
+  if(p==="custom"){return {lo:document.getElementById("from").value||"0000-00-00",hi:document.getElementById("to").value||"9999-99-99",label:"custom"};}
+  const n=+p; return {lo:shiftDate(TODAY_DATE,-(n-1)),hi:"9999-99-99",label:`last ${n} days`};
 }
 
 function applyFilter(){
   const f=currentFilter();
   ROWS_OK=ALL_OK.filter(r=>r.date>=f.lo && r.date<=f.hi);
-  // aggregate over OPEN hours only
   const sum={}; CNT={};
   for(const r of ROWS_OK){ if(!isOpen(r.dow,r.hour))continue;
     const k=r.dow+"|"+r.hour; sum[k]=(sum[k]||0)+ +r.pct; CNT[k]=(CNT[k]||0)+1; }
   AVG=(d,h)=>{const k=d+"|"+h; return CNT[k]?sum[k]/CNT[k]:null;};
 
-  // period info + samples card
   const openCount=ROWS_OK.filter(r=>isOpen(r.dow,r.hour)).length;
   const ds=ROWS_OK.map(r=>r.date);
-  const span = ds.length ? (ds[0]===ds[ds.length-1]?ds[0]:`${ds[0]} → ${ds[ds.length-1]}`) : "no data";
+  const span=ds.length?(ds[0]===ds[ds.length-1]?ds[0]:`${ds[0]} → ${ds[ds.length-1]}`):"no data";
   document.getElementById("count").textContent=openCount.toLocaleString();
   document.getElementById("span").textContent=span;
   document.getElementById("periodinfo").textContent=`${openCount.toLocaleString()} open-hour readings · ${span}`;
 
-  // best-times cards (for today's weekday, within the selected period)
   const oh=openHours(TODAY);
-  const usable=oh.filter(h=>h!==closeHour(TODAY)); // don't recommend the closing hour
+  const usable=oh.filter(h=>h!==closeHour(TODAY));
   const rank=hrs=>hrs.map(h=>({h,a:AVG(TODAY,h)})).filter(x=>x.a!=null).sort((a,b)=>a.a-b.a);
-  const all=rank(usable), work=rank(usable.filter(h=>h<8||h>=17));
-  fillBest("best-all","best-all-sub",all,`quietest on ${DAYS[TODAY]}`);
-  fillBest("best-work","best-work-sub",work,`before 08:00 / after 17:00 · ${DAYS[TODAY]}`);
+  fillBest("best-all","best-all-sub",rank(usable),`quietest on ${DAYS[TODAY]}`);
+  fillBest("best-work","best-work-sub",rank(usable.filter(h=>h<8||h>=17)),`before 08:00 / after 17:00 · ${DAYS[TODAY]}`);
 
-  drawGrid();
-  drawToday();
+  drawGrid(); drawToday();
 }
 
 function fillBest(valId,subId,ranked,label){
@@ -256,7 +298,7 @@ function fillBest(valId,subId,ranked,label){
   if(ranked.length){
     v.textContent=ranked.slice(0,3).map(x=>String(x.h).padStart(2,"0")+":00").join(", ");
     s.textContent=`${label} (avg ${ranked.slice(0,3).map(x=>Math.round(x.a)+"%").join(", ")})`;
-  }else{ v.textContent="—"; s.textContent=`no data for ${DAYS[TODAY]} in this period`; }
+  }else{v.textContent="—";s.textContent=`no data for ${DAYS[TODAY]} in this period`;}
 }
 
 function drawGrid(){
@@ -290,70 +332,59 @@ function drawGrid(){
   });
   applyTableMode();
 }
-
 function applyTableMode(){
   document.querySelectorAll("#grid td[data-v]").forEach(td=>{
-    td.style.background=TABLE?"transparent":color(+td.dataset.v);
+    td.style.background=TABLE?"var(--surface2)":color(+td.dataset.v);
     td.style.color=TABLE?cssvar("--ink"):textColor(+td.dataset.v);
   });
 }
 document.getElementById("tbtn").addEventListener("click",()=>{
-  TABLE=!TABLE;
-  document.getElementById("tbtn").textContent=TABLE?"Show as heatmap":"Show as table";
-  applyTableMode();
+  TABLE=!TABLE;document.getElementById("tbtn").textContent=TABLE?"Show as heatmap":"Show as table";applyTableMode();
 });
 
-// Line chart: today's readings so far vs the usual curve (period) for today's weekday.
 function drawToday(){
   const panel=document.getElementById("today-panel");
   if(!ALL_OK.length){panel.hidden=true;return;}
   document.getElementById("today-title").textContent=`Today so far — ${FULLDAYS[TODAY]} vs usual`;
   const oh=openHours(TODAY);
   const usual=oh.map(h=>({h,v:AVG(TODAY,h)}));
-  // today's actual readings always come from all data for today's date (open hours)
   const tmap={};
   for(const r of ALL_OK) if(r.date===TODAY_DATE && isOpen(r.dow,r.hour)){
     if(!tmap[r.hour])tmap[r.hour]={s:0,n:0}; tmap[r.hour].s+=+r.pct; tmap[r.hour].n++;
   }
   const today=oh.map(h=>({h,v:tmap[h]?tmap[h].s/tmap[h].n:null}));
-  document.getElementById("today-empty").hidden = today.some(x=>x.v!=null);
+  document.getElementById("today-empty").hidden=today.some(x=>x.v!=null);
 
   const cv=n=>cssvar(n);
   const W=760,H=300,pL=42,pR=14,pT=14,pB=32, pw=W-pL-pR, ph=H-pT-pB;
   const hmin=oh[0], hmax=oh[oh.length-1], span=Math.max(1,hmax-hmin);
   const x=h=>pL+(h-hmin)/span*pw, y=v=>pT+(1-v/100)*ph;
   const path=pts=>pts.map((p,i)=>(i?"L":"M")+x(p.h).toFixed(1)+" "+y(p.v).toFixed(1)).join(" ");
-
   let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Today vs usual occupancy">`;
   for(const g of [0,25,50,75,100]){
-    s+=`<line x1="${pL}" y1="${y(g)}" x2="${W-pR}" y2="${y(g)}" stroke="${cv('--grid')}" stroke-width="1"/>`;
+    s+=`<line x1="${pL}" y1="${y(g)}" x2="${W-pR}" y2="${y(g)}" stroke="${cv('--line')}" stroke-width="1"/>`;
     s+=`<text x="${pL-8}" y="${y(g)+3.5}" text-anchor="end" font-size="11" fill="${cv('--muted')}">${g}</text>`;
   }
-  for(const h of oh) if(h%2===0){
-    s+=`<text x="${x(h)}" y="${H-10}" text-anchor="middle" font-size="11" fill="${cv('--muted')}">${String(h).padStart(2,"0")}</text>`;
-  }
-  s+=`<path d="${path(usual.filter(p=>p.v!=null))}" fill="none" stroke="${cv('--usual')}" stroke-width="2" stroke-dasharray="5 4" stroke-linejoin="round"/>`;
+  for(const h of oh) if(h%2===0) s+=`<text x="${x(h)}" y="${H-10}" text-anchor="middle" font-size="11" fill="${cv('--muted')}">${String(h).padStart(2,"0")}</text>`;
+  s+=`<path d="${path(usual.filter(p=>p.v!=null))}" fill="none" stroke="${cv('--usual')}" stroke-width="2" stroke-dasharray="5 4"/>`;
   const tpts=today.filter(p=>p.v!=null);
   if(tpts.length){
-    s+=`<path d="${path(tpts)}" fill="none" stroke="${cv('--today')}" stroke-width="2.5" stroke-linejoin="round"/>`;
-    for(const p of tpts) s+=`<circle cx="${x(p.h)}" cy="${y(p.v)}" r="3.6" fill="${cv('--today')}"/>`;
+    s+=`<path d="${path(tpts)}" fill="none" stroke="${cv('--today')}" stroke-width="2.5"/>`;
+    for(const p of tpts) s+=`<circle cx="${x(p.h)}" cy="${y(p.v)}" r="3.4" fill="${cv('--today')}"/>`;
   }
   s+=`<line id="guide" x1="0" y1="${pT}" x2="0" y2="${pT+ph}" stroke="${cv('--today')}" stroke-width="1" opacity="0"/>`;
-  for(const h of oh){const half=pw/span/2;
-    s+=`<rect x="${(x(h)-half).toFixed(1)}" y="${pT}" width="${(pw/span).toFixed(1)}" height="${ph}" fill="transparent" data-h="${h}"/>`;}
+  for(const h of oh){const half=pw/span/2;s+=`<rect x="${(x(h)-half).toFixed(1)}" y="${pT}" width="${(pw/span).toFixed(1)}" height="${ph}" fill="transparent" data-h="${h}"/>`;}
   s+=`</svg>`;
   document.getElementById("linechart").innerHTML=s;
-
   document.getElementById("legend2").innerHTML=
     `<span><i class="sw" style="border-color:${cv('--today')}"></i>Today (${TODAY_DATE})</span>`+
     `<span><i class="sw" style="border-color:${cv('--usual')};border-top-style:dashed"></i>Usual ${FULLDAYS[TODAY]} (${currentFilter().label})</span>`;
-
   const svg=document.querySelector("#linechart svg"), guide=svg.querySelector("#guide"), tip=document.getElementById("tip");
   const uMap={},dMap={}; usual.forEach(p=>uMap[p.h]=p.v); today.forEach(p=>dMap[p.h]=p.v);
   svg.querySelectorAll("rect[data-h]").forEach(rc=>{
     rc.addEventListener("mousemove",e=>{
       const h=+rc.dataset.h; guide.setAttribute("x1",x(h));guide.setAttribute("x2",x(h));guide.setAttribute("opacity","0.5");
-      const u=uMap[h], d=dMap[h];
+      const u=uMap[h],d=dMap[h];
       tip.style.opacity=1;tip.style.left=(e.clientX+12)+"px";tip.style.top=(e.clientY+12)+"px";
       tip.innerHTML=`${String(h).padStart(2,"0")}:00 · today ${d!=null?Math.round(d)+"%":"—"} · usual ${u!=null?Math.round(u)+"%":"—"}`;
     });
@@ -361,6 +392,9 @@ function drawToday(){
   });
   panel.hidden=false;
 }
+
+buildRail();
+loadFacility();
 </script>
 </body>
 </html>
