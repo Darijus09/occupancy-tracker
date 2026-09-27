@@ -1329,3 +1329,4 @@ ts_utc,ts_local,weekday,dow,hour,minute,occupancy_pct,status
 2026-09-27T19:31:00Z,2026-09-27 22:31:00,Sunday,6,22,31,0,ok
 2026-09-27T19:45:41Z,2026-09-27 22:45:41,Sunday,6,22,45,0,ok
 2026-09-27T20:01:09Z,2026-09-27 23:01:09,Sunday,6,23,1,0,ok
+2026-09-27T20:15:44Z,2026-09-27 23:15:44,Sunday,6,23,15,,http_error:URLError
