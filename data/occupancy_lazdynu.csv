@@ -1794,3 +1794,4 @@ ts_utc,ts_local,weekday,dow,hour,minute,occupancy_pct,status
 2026-10-02T11:01:11Z,2026-10-02 14:01:11,Friday,4,14,1,,http_error:TimeoutError
 2026-10-02T11:15:47Z,2026-10-02 14:15:47,Friday,4,14,15,,http_error:RemoteDisconnected
 2026-10-02T11:31:05Z,2026-10-02 14:31:05,Friday,4,14,31,,http_error:TimeoutError
+2026-10-02T11:45:47Z,2026-10-02 14:45:47,Friday,4,14,45,17,ok
