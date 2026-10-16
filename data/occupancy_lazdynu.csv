@@ -3245,3 +3245,4 @@ ts_utc,ts_local,weekday,dow,hour,minute,occupancy_pct,status
 2026-10-16T21:35:55Z,2026-10-17 00:35:55,Saturday,5,0,35,0,ok
 2026-10-16T21:45:40Z,2026-10-17 00:45:40,Saturday,5,0,45,0,ok
 2026-10-16T22:01:09Z,2026-10-17 01:01:09,Saturday,5,1,1,0,ok
+2026-10-16T22:15:37Z,2026-10-17 01:15:37,Saturday,5,1,15,0,ok
