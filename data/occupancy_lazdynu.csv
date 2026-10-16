@@ -3249,3 +3249,4 @@ ts_utc,ts_local,weekday,dow,hour,minute,occupancy_pct,status
 2026-10-16T22:30:54Z,2026-10-17 01:30:54,Saturday,5,1,30,,http_error:URLError
 2026-10-16T22:45:38Z,2026-10-17 01:45:38,Saturday,5,1,45,0,ok
 2026-10-16T23:01:07Z,2026-10-17 02:01:07,Saturday,5,2,1,0,ok
+2026-10-16T23:15:38Z,2026-10-17 02:15:38,Saturday,5,2,15,0,ok
