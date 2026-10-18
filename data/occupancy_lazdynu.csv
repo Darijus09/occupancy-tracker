@@ -3380,3 +3380,4 @@ ts_utc,ts_local,weekday,dow,hour,minute,occupancy_pct,status
 2026-10-18T05:01:03Z,2026-10-18 08:01:03,Sunday,6,8,1,1,ok
 2026-10-18T05:15:35Z,2026-10-18 08:15:35,Sunday,6,8,15,,http_error:URLError
 2026-10-18T05:30:53Z,2026-10-18 08:30:53,Sunday,6,8,30,6,ok
+2026-10-18T05:39:34Z,2026-10-18 08:39:34,Sunday,6,8,39,7,ok
