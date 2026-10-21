@@ -3752,3 +3752,4 @@ ts_utc,ts_local,weekday,dow,hour,minute,occupancy_pct,status
 2026-10-21T20:30:56Z,2026-10-21 23:30:56,Wednesday,2,23,30,0,ok
 2026-10-21T20:45:38Z,2026-10-21 23:45:38,Wednesday,2,23,45,0,ok
 2026-10-21T21:01:10Z,2026-10-22 00:01:10,Thursday,3,0,1,,http_error:URLError
+2026-10-21T21:15:40Z,2026-10-22 00:15:40,Thursday,3,0,15,0,ok
