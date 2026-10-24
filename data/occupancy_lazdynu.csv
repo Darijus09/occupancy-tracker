@@ -4020,3 +4020,4 @@ ts_utc,ts_local,weekday,dow,hour,minute,occupancy_pct,status
 2026-10-24T11:45:43Z,2026-10-24 14:45:43,Saturday,5,14,45,,http_error:URLError
 2026-10-24T12:01:13Z,2026-10-24 15:01:13,Saturday,5,15,1,30,ok
 2026-10-24T12:15:42Z,2026-10-24 15:15:42,Saturday,5,15,15,30,ok
+2026-10-24T12:30:58Z,2026-10-24 15:30:58,Saturday,5,15,30,30,ok
