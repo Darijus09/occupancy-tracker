@@ -4430,3 +4430,4 @@ ts_utc,ts_local,weekday,dow,hour,minute,occupancy_pct,status
 2026-10-28T12:45:43Z,2026-10-28 14:45:43,Wednesday,2,14,45,16,ok
 2026-10-28T13:01:18Z,2026-10-28 15:01:18,Wednesday,2,15,1,27,ok
 2026-10-28T13:15:42Z,2026-10-28 15:15:42,Wednesday,2,15,15,30,ok
+2026-10-28T13:31:00Z,2026-10-28 15:31:00,Wednesday,2,15,31,34,ok
