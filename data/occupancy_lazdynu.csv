@@ -4610,3 +4610,4 @@ ts_utc,ts_local,weekday,dow,hour,minute,occupancy_pct,status
 2026-10-30T07:45:43Z,2026-10-30 09:45:43,Friday,4,9,45,15,ok
 2026-10-30T08:01:10Z,2026-10-30 10:01:10,Friday,4,10,1,15,ok
 2026-10-30T08:15:41Z,2026-10-30 10:15:41,Friday,4,10,15,,http_error:URLError
+2026-10-30T08:31:00Z,2026-10-30 10:31:00,Friday,4,10,31,17,ok
