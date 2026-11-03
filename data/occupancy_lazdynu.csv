@@ -5012,3 +5012,4 @@ ts_utc,ts_local,weekday,dow,hour,minute,occupancy_pct,status
 2026-11-03T08:15:42Z,2026-11-03 10:15:42,Tuesday,1,10,15,,http_error:URLError
 2026-11-03T08:31:01Z,2026-11-03 10:31:01,Tuesday,1,10,31,16,ok
 2026-11-03T08:45:53Z,2026-11-03 10:45:53,Tuesday,1,10,45,21,ok
+2026-11-03T09:01:18Z,2026-11-03 11:01:18,Tuesday,1,11,1,20,ok
