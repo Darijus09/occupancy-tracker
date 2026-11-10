@@ -5715,3 +5715,4 @@ ts_utc,ts_local,weekday,dow,hour,minute,occupancy_pct,status
 2026-11-10T10:56:12Z,2026-11-10 12:56:12,Tuesday,1,12,56,20,ok
 2026-11-10T11:01:06Z,2026-11-10 13:01:06,Tuesday,1,13,1,19,ok
 2026-11-10T11:15:40Z,2026-11-10 13:15:40,Tuesday,1,13,15,16,ok
+2026-11-10T11:30:53Z,2026-11-10 13:30:53,Tuesday,1,13,30,,http_error:TimeoutError
