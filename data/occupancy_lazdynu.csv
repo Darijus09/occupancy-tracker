@@ -5837,3 +5837,4 @@ ts_utc,ts_local,weekday,dow,hour,minute,occupancy_pct,status
 2026-11-11T16:15:38Z,2026-11-11 18:15:38,Wednesday,2,18,15,65,ok
 2026-11-11T16:30:54Z,2026-11-11 18:30:54,Wednesday,2,18,30,76,ok
 2026-11-11T16:45:40Z,2026-11-11 18:45:40,Wednesday,2,18,45,72,ok
+2026-11-11T17:01:07Z,2026-11-11 19:01:07,Wednesday,2,19,1,67,ok
