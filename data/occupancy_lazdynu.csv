@@ -6396,3 +6396,4 @@ ts_utc,ts_local,weekday,dow,hour,minute,occupancy_pct,status
 2026-11-17T07:15:36Z,2026-11-17 09:15:36,Tuesday,1,9,15,18,ok
 2026-11-17T07:31:02Z,2026-11-17 09:31:02,Tuesday,1,9,31,,http_error:URLError
 2026-11-17T07:45:38Z,2026-11-17 09:45:38,Tuesday,1,9,45,16,ok
+2026-11-17T08:01:05Z,2026-11-17 10:01:05,Tuesday,1,10,1,14,ok
