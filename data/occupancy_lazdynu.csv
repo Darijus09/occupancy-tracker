@@ -7482,3 +7482,4 @@ ts_utc,ts_local,weekday,dow,hour,minute,occupancy_pct,status
 2026-11-28T06:45:43Z,2026-11-28 08:45:43,Saturday,5,8,45,,http_error:TimeoutError
 2026-11-28T07:01:11Z,2026-11-28 09:01:11,Saturday,5,9,1,,no_match
 2026-11-28T07:15:43Z,2026-11-28 09:15:43,Saturday,5,9,15,,http_error:TimeoutError
+2026-11-28T07:30:58Z,2026-11-28 09:30:58,Saturday,5,9,30,,http_error:TimeoutError
